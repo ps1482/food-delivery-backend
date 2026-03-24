@@ -1,6 +1,7 @@
 package com.prashant.fooddelivery.service;
 
 import com.prashant.fooddelivery.dto.UserResponseDTO;
+import com.prashant.fooddelivery.exception.UserAlreadyExistsException;
 import com.prashant.fooddelivery.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import com.prashant.fooddelivery.model.User;
@@ -30,17 +31,18 @@ public class UserService {
         Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
 
         if (existingUser.isPresent()) {
-            throw  new RuntimeException("Email already exists");
+//            throw  new RuntimeException("Email already exists");
+            throw new UserAlreadyExistsException("Email " + user.getEmail() + " already exists!");
         }
         // save() method comes from JpaRepository
         User savedUser = userRepository.save(user);
-        UserResponseDTO userResponseDTO = new UserResponseDTO();
-        userResponseDTO.setId(savedUser.getId());
-        userResponseDTO.setEmail(savedUser.getEmail());
-        userResponseDTO.setName(savedUser.getName());
-        userResponseDTO.setRole(savedUser.getRole());
-
-        return userResponseDTO;
+//        UserResponseDTO userResponseDTO = new UserResponseDTO();
+//        userResponseDTO.setId(savedUser.getId());
+//        userResponseDTO.setEmail(savedUser.getEmail());
+//        userResponseDTO.setName(savedUser.getName());
+//        userResponseDTO.setRole(savedUser.getRole());
+//        return userResponseDTO;
+         return new  UserResponseDTO(savedUser);
     }
 
 //    for Read Users (GET) API
